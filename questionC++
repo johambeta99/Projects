@@ -1,0 +1,73 @@
+nclude <iostream>
+#include <array>
+using namespace std;
+
+
+// function declaration:
+int findSums(int a[], int size);
+
+int main ()
+{
+   // an int array with 5 elements.
+   int input[9] = {0, 0, 2, 5, 3, 2, 1, 0, 2};
+   int size = sizeof(input)/sizeof(*input);
+   
+   // pass pointer to the array as an argument.
+   findSums( input, size ) ; 
+   return 0;
+}
+
+
+int findSums(int a[], int size)
+{
+  struct pairs {
+      int num1;
+      int num2;
+  };
+  
+  int i, j, sum = 0;
+  int arraySize = size;
+  bool msg = 1;
+
+    //Array to store the dup values
+    pairs dup[size];
+    //Count to keep track on the amount of dup values added to dup array
+    int count = 0;
+    //bool to flag if the value should be printed or not
+    bool add;
+    
+  for (i = 0; i < arraySize-1; ++i)
+  { 
+    
+    for (j = i+1; j < arraySize; ++j)
+    {   
+        if ((a[i]+a[j])%2==0 && (a[i] + a[j] != 0))
+        {
+            add = 1;
+            if (msg)
+            {
+                cout << "Array pairs that add to an even number:" << endl; 
+                msg = 0;
+            }
+            
+            //Testing if value is on dup array
+            for (int x = 0; x < count; ++x){
+                //if values is in the dup array, flag bool value to not print
+                if(((dup[x].num1 == a[i]) && (dup[x].num2 == a[j])) | ((dup[x].num1 == a[j]) && (dup[x].num2 == a[i]))) {
+                    cout << " dupe found[" << a[i] <<"," <<  a[j] << "]" << endl; 
+                    add = 0;
+                }
+            }
+            
+            //if add flag was not modified, print values, them add value to dup array, and increase count
+           if (add){
+                cout << "[" << a[i] <<"," << a[j] << "]" << endl; 
+                dup[count].num1 = a[i];
+                dup[count].num2 = a[j]; 
+                ++count;
+            }
+        }
+    }
+  } 
+    return 0;
+}
